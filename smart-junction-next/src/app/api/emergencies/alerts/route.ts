@@ -36,7 +36,7 @@ export async function POST(req: Request) {
            from: twilioNumber,
            to: targetNumber
          });
-       } catch (smsError) {
+       } catch (smsError: any) {
          console.warn("SMS Failed (likely trial restriction):", smsError.message);
        }
        

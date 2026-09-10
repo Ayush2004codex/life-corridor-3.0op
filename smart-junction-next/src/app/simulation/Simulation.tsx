@@ -244,7 +244,7 @@ export default function SmartJunctionDashboard({ isBackground = false }: { isBac
     
     // Spawn Ambulance
     setTimeout(() => {
-      setVehicles(prev => [...prev, { id: 'amb-1', pos: [-35, 0.4, 1], color: '#fff', dir: 'E', isAmb: true }]);
+      setVehicles(prev => [...prev, { id: 'amb-' + Date.now(), pos: [-35, 0.4, 1], color: '#fff', dir: 'E', isAmb: true }]);
       setLogs(prev => ['[AI-CORE] Ambulance AMB-7 entered highway.', ...prev]);
     }, 1000);
 
@@ -258,12 +258,9 @@ export default function SmartJunctionDashboard({ isBackground = false }: { isBac
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data === 'TRIGGER_CORRIDOR') {
-        // Only trigger if not already active
         setEmergency((prev) => {
-          if (!prev) {
-            triggerCorridor();
-          }
-          return prev;
+          if (!prev) setTimeout(triggerCorridor, 0);
+          return true;
         });
       }
     };
@@ -271,10 +268,8 @@ export default function SmartJunctionDashboard({ isBackground = false }: { isBac
     const handleStorage = (event: StorageEvent) => {
       if (event.key === 'GLOBAL_TRIGGER_CORRIDOR' && event.newValue) {
         setEmergency((prev) => {
-          if (!prev) {
-            triggerCorridor();
-          }
-          return prev;
+          if (!prev) setTimeout(triggerCorridor, 0);
+          return true;
         });
       }
     };

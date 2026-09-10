@@ -29,25 +29,23 @@ export async function POST(req: Request) {
     }
 
     if (twilioClient && targetNumber && twilioNumber) {
-       // Send Standard SMS
-       await twilioClient.messages.create({
-         body: messageBody,
-         from: twilioNumber,
-         to: targetNumber
-       });
+       // Send Standard SMS (Wrapped in try-catch because Trial accounts fail without predefined templates)
+       try {
+         await twilioClient.messages.create({
+           body: messageBody,
+           from: twilioNumber,
+           to: targetNumber
+         });
+       } catch (smsError) {
+         console.warn("SMS Failed (likely trial restriction):", smsError.message);
+       }
        
        // Send WhatsApp if enabled
        if (process.env.TWILIO_WHATSAPP_NUMBER) {
          await twilioClient.messages.create({
            from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
            to: `whatsapp:${targetNumber}`,
-           contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
-           contentVariables: JSON.stringify({
-             "1": status === 'arrived' 
-                  ? `ambulance arrived at ${hospital || 'Hospital'}` 
-                  : `ambulance to ${hospital || 'Hospital'}`,
-             "2": timeNow
-           })
+           contentSid: 'HX6a0f411e81d092c214c00d5e2727cc36'
          });
        }
        console.log("✅ Twilio alerts sent successfully to", targetNumber);

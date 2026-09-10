@@ -34,7 +34,7 @@ Return ONLY a valid JSON object with:
     try {
       const completion = await groq.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
-        model: 'llama-3.1-8b-instant',
+        model: 'openai/gpt-oss-20b',
         temperature: 0.3,
         response_format: { type: 'json_object' }
       });
@@ -93,7 +93,7 @@ Return ONLY a valid JSON object with:
     try {
       const completion = await groq.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
-        model: 'llama-3.1-8b-instant',
+        model: 'openai/gpt-oss-20b',
         temperature: 0.4,
         response_format: { type: 'json_object' }
       });

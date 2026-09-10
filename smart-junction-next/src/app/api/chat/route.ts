@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-20b',
         messages: [
           { role: 'system', content: "You are an AI Assistant for the Life-Corridor ambulance dashboard. Be very short, max 1 or 2 sentences." },
           { role: 'user', content: message }

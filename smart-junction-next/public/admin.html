@@ -840,6 +840,11 @@
 
     function overrideAllSignalsGreen() {
       localStorage.setItem('lc_signal_override', JSON.stringify({ active: true, timestamp: Date.now() }));
+      localStorage.setItem('GLOBAL_TRIGGER_CORRIDOR', Date.now().toString());
+      const iframe = document.querySelector('iframe');
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('TRIGGER_CORRIDOR', '*');
+      }
       for (let i = 1; i <= 6; i++) {
         const signalDot = document.querySelector(`.signal-grid .signal-item:nth-child(${i}) .signal-dot`);
         const statusText = document.querySelector(`.signal-grid .signal-item:nth-child(${i}) div:last-child`);
